@@ -1,0 +1,25 @@
+
+
+.countryTitle {
+  background-color: #0f9db6d2;
+  display: inline-block;      /* shrinks to content width */
+  white-space: nowrap;        /* prevents wrapping */
+  padding: 0.5rem 1rem;       /* switch to rem units for consistent padding */
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  width: fit-content;         /* modern browsers only */
+  max-width: 100%;            /* never exceed container width */
+  padding: 0.5rem;
+  border-radius: .4rem; 
+  text-align: center;
+}
+
+
+.backToHome {
+  display: block; /* Permet de gérer la position comme un bloc */
+  margin-top: 30px; /* Ajoute un espacement au-dessus pour le positionner plus bas */
+  font-size: clamp(1rem, 1.5vw, 1.5rem); /* Augmente la taille du texte */
+  font-weight: bold; /* Rend le texte plus gras */
+  text-align: center; /* Centre le texte horizontalement */
+  color: #0388a0; /* Couleur du texte */
+  text-decoration: none; /* Supprime le soulignement du lien */
+}
