@@ -1,59 +1,68 @@
-# OlympicDashboard
+# Olympic Games Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+An interactive, responsive Angular application that visualizes past Olympic Games data with charts. Users can:
 
-## Development server
+* View a **pie chart** of total medals per country.
+* Click on any country slice to navigate to a **detail page**.
+* On the detail page, see:
 
-To start a local development server, run:
+  * Total number of participations
+  * Total number of medals
+  * Total number of athletes
+  * A **bar chart** of medals by edition
+* Return to the dashboard at any time.
 
-```bash
-ng serve
-```
+Fully responsive—no external CSS framework required.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+##  Features
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+* **Home / Dashboard**
 
-```bash
-ng generate component component-name
-```
+  * Pie chart of \[country → total medals]
+  * Summary stats: number of editions (JOs), number of countries
+  * Clickable slices that route to detail pages
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+* **Country Detail**
 
-```bash
-ng generate --help
-```
+  * Displays:
 
-## Building
+    * Number of participations
+    * Total medals
+    * Total athletes
+  * Bar chart showing medals per edition
+  * “Back to Home” link
 
-To build the project run:
+* **Data service**
 
-```bash
-ng build
-```
+  * Loads `assets/mock/olympic.json` once at app start
+  * Provides an RxJS `Observable<Olympic[]>` to all components
+  * Utility function to sum medals or athletes
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## Technologies Used
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+* Node.js: 22.16.0
+* Angular CLI: 20.0.3
+* Package Manager: npm 11.4.2
 
-```bash
-ng test
-```
+## How to Use
 
-## Running end-to-end tests
+1. Launch the app (`ng serve`).
+2. On the **Home** page:
 
-For end-to-end (e2e) testing, run:
+   * View the pie chart of total medals.
+   * Hover or click on slices to see tooltip & navigate.
+3. On a **Country Detail** page:
 
-```bash
-ng e2e
-```
+   * Read summary stats at the top.
+   * Explore the bar chart showing medals per year.
+   * Click “Back to Home” to return.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## Author
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Abubaker ISMAIL NEMAIRY
