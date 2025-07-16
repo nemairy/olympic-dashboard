@@ -1,12 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Olympic } from '../../Models/Olympic';
 import { OlympicService } from '../../Services/olympic.service';
 import { Router } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PieData } from '../../Models/PieData';
 import { CommonModule } from '@angular/common';
-import { ToPieChart } from '../../Services/to-pie-chart';
 
 
 
@@ -20,24 +19,28 @@ import { ToPieChart } from '../../Services/to-pie-chart';
   templateUrl: 'home.html',
   styleUrls: ['./home.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   olympics$!: Observable<Olympic[]>;
-  pieData: PieData[] = [];
+  pieData$!: Observable<PieData[]>;
   numberOfJOs: number = 0;
+  private destroy$ = new Subject<void>();
 
 
   constructor(private olympicService: OlympicService,
     private router: Router,
-    private toPieDataService: ToPieChart) { }
+    ) { }
 
   ngOnInit() {
+    this.onResize();
     this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.subscribe(olympics => {
-      this.pieData = this.toPieDataService.ToPieChartData(olympics);
-    }
-    )
+    
+    this.pieData$ = this.olympicService.getPieChartData();
+      
+  }
 
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /** PieChart options */

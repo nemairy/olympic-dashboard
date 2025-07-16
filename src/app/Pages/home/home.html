@@ -9,9 +9,16 @@
   </ng-container>
   <div class="row">
     <div class="col-12 col-md-8">
-      <ngx-charts-pie-chart class="piechart" [view]="[width, height]" [results]="pieData" [legend]="showLegend"
-        [labels]="showLabels" [gradient]="gradient" [doughnut]="isDoughnut" (select)="onCountrySelect($event)">
-
+      <ngx-charts-pie-chart class="piechart" 
+       *ngIf="pieData$ | async as pieData"
+       [view]="[width, height]"
+       [results]="pieData" 
+       [legend]="showLegend"
+       [labels]="showLabels" 
+       [gradient]="gradient" 
+       [doughnut]="isDoughnut" 
+       (select)="onCountrySelect($event)">
+   
         <ng-template #tooltipTemplate let-model="model">
           <div>{{model.name}}</div>
           <div>🥇{{model.value}}</div>
