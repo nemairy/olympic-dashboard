@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { map, Observable, Subject } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { Olympic } from '../../Models/Olympic';
 import { OlympicService } from '../../Services/olympic.service';
 import { Router } from '@angular/router';
@@ -23,8 +23,8 @@ import { CommonModule } from '@angular/common';
 export class HomeComponent implements OnInit, OnDestroy {
   olympics$!: Observable<Olympic[]>;
   pieData$!: Observable<PieData[]>;
-  numberOfJOs: number = 0;
   private destroy$ = new Subject<void>();
+  numberOfJOs$!: Observable<number>;
 
 
   constructor(private olympicService: OlympicService,
@@ -37,7 +37,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.pieData$ = this.getPieChartData(this.olympics$);
 
+    // Calculate the number of unique years from the participations as an observable
+    this.numberOfJOs$ = this.olympics$.pipe(
+      map(olympics => {
+        const allYears = olympics.flatMap(country => country.participations.map(pa => pa.year));
+        return new Set(allYears).size;
+      })
+    );
+
   }
+      
 
   ngOnDestroy(): void {
     this.destroy$.next();

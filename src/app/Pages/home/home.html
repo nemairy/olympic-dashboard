@@ -3,7 +3,7 @@
   <h1 class="title">Medals per Country</h1>
   <ng-container *ngIf="(olympics$ | async) as olympics">
     <div class="d-flex justify-content-center flex-wrap gap-3 p-3">
-      <h3 class="subtitle">Number of JOs<span class="detail">3</span></h3>
+      <h3 class="subtitle">Number of JOs<span class="detail">{{ numberOfJOs$ | async }}</span></h3>
       <h3 class="subtitle">Number of countries<span class="detail">{{ olympics.length }}</span></h3>
     </div>
   </ng-container>

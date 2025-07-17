@@ -9,6 +9,11 @@ import { Participation } from '../Models/Participation';
 
 @Injectable({ providedIn: 'root' })
 export class OlympicService {
+
+  getParticipations(): Observable<Participation[]> {
+    return this.http.get<Participation[]>('assets/mock/participations.json')
+      
+  }
   private olympicDataUrl = 'assets/mock/olympic.json';
   private olympicsSubject = new BehaviorSubject<Olympic[]>([]);
 
