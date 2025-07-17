@@ -1,11 +1,12 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { map, Observable, Subject } from 'rxjs';
 import { Olympic } from '../../Models/Olympic';
 import { OlympicService } from '../../Services/olympic.service';
 import { Router } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PieData } from '../../Models/PieData';
 import { CommonModule } from '@angular/common';
+
 
 
 
@@ -28,14 +29,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private olympicService: OlympicService,
     private router: Router,
-    ) { }
+  ) { }
 
   ngOnInit() {
-    this.onResize();
+
     this.olympics$ = this.olympicService.getOlympics();
-    
-    this.pieData$ = this.olympicService.getPieChartData();
-      
+
+    this.pieData$ = this.getPieChartData(this.olympics$);
+
   }
 
   ngOnDestroy(): void {
@@ -52,16 +53,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   height!: number;
 
 
-  @HostListener('window:resize')
-  // Adjust the chart size on window resize
-  onResize() {
-    this.width = Math.max(window.innerWidth / 2, 300);
-    this.height = Math.max(window.innerHeight / 2, 500);
-  }
-
   onCountrySelect(event: PieData): void {
     // Navigate to the detail page with the selected country name
     this.router.navigateByUrl(`detail/${(event.name)}`);
   }
+
+
+  private getPieChartData(olympics$: Observable<Olympic[]>): Observable<PieData[]> {
+    return olympics$.pipe(
+      map(countries =>
+        countries.map(country => ({
+          id: country.id,
+          name: country.country,
+          value: this.olympicService.totalMedalCalc(country.participations, 'medalsCount')
+        }))
+      )
+    );
+  }
+
+
+
 
 }

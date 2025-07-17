@@ -1,11 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Olympic } from '../../Models/Olympic';
 import { OlympicService } from '../../Services/olympic.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CommonModule } from '@angular/common';
 import { ToLineChartService } from '../../Services/ToLineChart.service';
-import { TotalMedalCalc } from '../../Services/totalCalculate';
 import { LineData } from '../../Models/LineData';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -63,8 +62,8 @@ export class CountryDetail implements OnInit {
       .subscribe(olympicCountries => {
         this.country = olympicCountries.find(o => o.country === currentCountryName)!;
         if (this.country) {
-          this.totalMedals = TotalMedalCalc(this.country.participations, 'medalsCount');
-          this.totalAthletes = TotalMedalCalc(this.country.participations, 'athleteCount');
+          this.totalMedals = this.olympicService.totalMedalCalc(this.country.participations, 'medalsCount');
+          this.totalAthletes = this.olympicService.totalMedalCalc(this.country.participations, 'athleteCount');
           this.lineChartData = this.toLineChartService.toLineChartData(this.country);
           this.numberOfJOs = this.country.participations.length;
         }
@@ -76,14 +75,6 @@ export class CountryDetail implements OnInit {
   }
 
 
-
-
-  // Adjust the chart size on window resize
-  @HostListener('window:resize')
-  onResize() {
-    this.width = Math.min(Math.max(window.innerWidth * 0.6, 300), 900);
-    this.height = Math.max(Math.floor(window.innerHeight * 0.6), 400);
-  }
   // Navigate back to the home page
   backToHome() {
     this.router.navigate(['/']);
